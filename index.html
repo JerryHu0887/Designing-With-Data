@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a1220">
+  <meta name="description" content="Spin a pixel globe and step inside the current weather of 16 cities.">
+  <title>Pixel Weather Earth</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="shell">
+    <header class="masthead">
+      <span class="eyebrow brand">CCT360 / DATA AS EXPERIENCE</span>
+      <div class="feed">
+        <p id="status" role="status" data-state="loading">Connecting to Open-Meteo&hellip;</p>
+        <button id="refreshBtn" type="button">Refresh</button>
+      </div>
+      <div class="unit-switch" role="group" aria-label="Temperature unit">
+        <button id="celsiusBtn" type="button" aria-label="Celsius" aria-pressed="true">&deg;C</button>
+        <button id="fahrenheitBtn" type="button" aria-label="Fahrenheit" aria-pressed="false">&deg;F</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="globeView" class="view active" aria-labelledby="title">
+        <header class="intro world-intro">
+          <p class="eyebrow">01 / WORLD VIEW</p>
+          <h1 id="title">Pixel Weather Earth</h1>
+          <p>Spin the globe and step inside the weather of 16 cities.</p>
+        </header>
+        <div class="layout world-layout">
+          <div class="globe-stage panel">
+            <div class="map-header">
+              <span class="eyebrow">WORLD MAP</span>
+              <span class="map-label">16 weather stations</span>
+            </div>
+            <div class="orbit">
+              <canvas id="globe" width="96" height="96" aria-hidden="true"></canvas>
+            </div>
+            <div id="tip" hidden></div>
+            <div class="globe-caption">
+              <p><strong>Drag to rotate.</strong> Select a pin to explore.</p>
+              <p class="scale"><span class="cool">Cool</span><span class="ramp" aria-hidden="true"></span><span class="warm">Warm</span></p>
+            </div>
+          </div>
+          <aside class="stations panel" aria-labelledby="stationHeading">
+            <h2 id="stationHeading">Choose a city</h2>
+            <p class="muted">Point to a station to locate its visible pin, or select it to enter the scene.</p>
+            <div id="cityList" class="city-list" aria-label="Available cities"></div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="cityView" class="view" aria-labelledby="cityName">
+        <nav class="toolbar" aria-label="City controls">
+          <button id="backBtn" type="button">&larr; World view</button>
+          <button id="soundBtn" type="button" aria-pressed="false">Sound</button>
+        </nav>
+        <header class="intro city-intro">
+          <p class="eyebrow">02 / CITY VIEW</p>
+          <h2 id="cityName" tabindex="-1"></h2>
+        </header>
+        <div class="layout">
+          <figure class="city-stage panel">
+            <canvas id="scene" aria-hidden="true"></canvas>
+            <figcaption class="scene-caption">
+              <p class="eyebrow">WHAT SHAPES THIS SCENE</p>
+              <dl class="scene-key">
+                <div><dt id="sceneTemp"></dt><dd>Sky and ground palette</dd></div>
+                <div><dt id="sceneWeather"></dt><dd id="sceneWeatherEffect"></dd></div>
+                <div id="sceneWindKey"><dt id="sceneWind"></dt><dd id="sceneWindEffect"></dd></div>
+                <div><dt id="sceneLight"></dt><dd id="sceneLightEffect"></dd></div>
+              </dl>
+            </figcaption>
+          </figure>
+          <aside class="readout panel" aria-label="Current conditions">
+            <p class="eyebrow">CURRENT CONDITIONS</p>
+            <p id="temp"></p>
+            <p id="cond"></p>
+            <dl class="metrics">
+              <div><dt>Wind</dt><dd id="wind"></dd></div>
+              <div><dt>Precipitation</dt><dd id="precip"></dd></div>
+              <div><dt>Local data time</dt><dd id="localTime"></dd></div>
+            </dl>
+            <p id="soundStatus" class="muted" role="status">Sound off. Enable it to hear the weather.</p>
+            <button id="aboutBtn" type="button" class="about-btn">About this city &rarr;</button>
+          </aside>
+        </div>
+      </section>
+      <section id="aboutView" class="view" aria-labelledby="aboutName">
+        <nav class="toolbar" aria-label="About controls">
+          <button id="aboutBackBtn" type="button">&larr; City view</button>
+        </nav>
+        <header class="intro city-intro">
+          <p class="eyebrow">03 / ABOUT THIS CITY</p>
+          <h2 id="aboutName" tabindex="-1"></h2>
+        </header>
+        <div class="layout about-layout">
+          <article class="about-text panel">
+            <p class="eyebrow">DESCRIPTION</p>
+            <p id="aboutDesc"></p>
+            <p id="aboutStreet" class="muted"></p>
+          </article>
+          <div class="video-panel panel">
+            <div id="videoFrame" class="video-frame"></div>
+            <p id="videoNote" class="muted" role="status"></p>
+            <a id="videoLink" href="#" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Current conditions from weather models. Refreshes every 10 min.</span>
+      <a href="https://open-meteo.com/">Weather data by Open-Meteo</a>
+    </footer>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
